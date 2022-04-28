@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/deltama37/typelevel-ts/issues"
   },
-  "homepage": "https://github.com/deltama37/typelevel-ts#readme"
+  "homepage": "https://github.com/deltama37/typelevel-ts#readme",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
 }
