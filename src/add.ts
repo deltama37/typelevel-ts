@@ -12,24 +12,20 @@ type Add<T extends number, U extends number> = ToNumber<
   _Add<ToTupleNum<T>, ToTupleNum<U>>
 >;
 
-type testAdd = Add<50, 100>;
-
 type _Minus<T extends TupleNum, U extends TupleNum> = T extends [
   ...U,
   ...infer X
 ]
   ? X
   : never;
-
 type Minus<T extends number, U extends number> = ToNumber<
   _Minus<ToTupleNum<T>, ToTupleNum<U>>
 >;
 
-type testMinus = Minus<10, 8>;
-
 type Decrement<T extends number> = Minus<T, 1>;
 type testDecrement = Decrement<1>;
 
+type IfElse<C extends boolean, T, F> = C extends true ? T : F;
 type Equals<T, S> = [T] extends [S] ? ([S] extends [T] ? true : false) : false;
 
 type Fibonacci<N, F0 = 1, F1 = 1> = {
@@ -43,4 +39,4 @@ type Fibonacci<N, F0 = 1, F1 = 1> = {
     : never;
 }[IfElse<Equals<0, N>, "acc", "n">];
 
-type testFiboncci = Fibonacci<0>;
+type testFiboncci = Fibonacci<15>;
