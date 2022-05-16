@@ -27,13 +27,13 @@ const eleven: Succ<Ten> = { n: { ...ten } };
 const twelve: Succ<Succ<Ten>> = { n: { ...eleven } };
 const thirteen: Succ<Succ<Succ<Ten>>> = { n: { ...twelve } };
 
-type Decrement<N> = N extends Succ<infer R> ? R : Zero;
+type __Decrement<N> = N extends Succ<infer R> ? R : Zero;
 type IsZero<N> = N extends Zero ? true : false;
 type IfElse<C extends boolean, T, F> = C extends true ? T : F;
 
-type Equals<A, B> = A extends Succ<infer SA>
+type _Equals<A, B> = A extends Succ<infer SA>
   ? B extends Succ<infer SB>
-    ? Equals<SA, SB>
+    ? _Equals<SA, SB>
     : false
   : A extends Zero
   ? B extends Zero
@@ -41,21 +41,23 @@ type Equals<A, B> = A extends Succ<infer SA>
     : false
   : false;
 
-type Add<A, B> = {
+type __Add<A, B> = {
   acc: B;
-  n: A extends Succ<infer _> ? Add<Decrement<A>, Succ<B>> : never;
+  n: A extends Succ<infer _> ? __Add<__Decrement<A>, Succ<B>> : never;
 }[IfElse<IsZero<A>, "acc", "n">];
 
-type Fibonacci<N, F0 = Zero, F1 = One> = {
+type _Fibonacci<N, F0 = Zero, F1 = One> = {
   acc: F0;
-  n: N extends Succ<infer _> ? Fibonacci<Decrement<N>, F1, Add<F0, F1>> : never;
-}[IfElse<Equals<Zero, N>, "acc", "n">];
+  n: N extends Succ<infer _>
+    ? _Fibonacci<__Decrement<N>, F1, __Add<F0, F1>>
+    : never;
+}[IfElse<_Equals<Zero, N>, "acc", "n">];
 
-const fib0: Fibonacci<Zero> = zero;
-const fib1: Fibonacci<One> = one;
-const fib2: Fibonacci<Two> = one;
-const fib3: Fibonacci<Three> = two;
-const fib4: Fibonacci<Four> = three;
-const fib5: Fibonacci<Five> = five;
-const fib6: Fibonacci<Six> = eight;
-const fib7: Fibonacci<Seven> = thirteen;
+const fib0: _Fibonacci<Zero> = zero;
+const fib1: _Fibonacci<One> = one;
+const fib2: _Fibonacci<Two> = one;
+const fib3: _Fibonacci<Three> = two;
+const fib4: _Fibonacci<Four> = three;
+const fib5: _Fibonacci<Five> = five;
+const fib6: _Fibonacci<Six> = eight;
+const fib7: _Fibonacci<Seven> = thirteen;
